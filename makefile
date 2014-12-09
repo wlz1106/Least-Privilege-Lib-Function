@@ -1,21 +1,19 @@
 LIBS=-lpthread -lm
-TEST_EXE="test/"
-all:tracelib test 
+CPPFLAGS=-std=c++11
+CFLAGS=-std=c99
+CC=gcc-4.8
+CPP=g++-4.8
 
-test:test/test_math test/test_pthread test/test_cipher
+TEST_SRC=$(wildcard test/test_*.c)
+TEST_EXE=$(TEST_SRC:%.c=%)
 
-test/test_math:
-	gcc -o $@.exe $@.c -lm
-test/test_pthread:
-	gcc -o $@.exe $@.c -lpthread
-test/test_cipher:
-	gcc -o $@.exe $@.c 
+all:tracelib $(TEST_EXE)
+
+.SECONDEXPANSION:
+$(TEST_EXE):$$@.c
+	$(CC) -o $@ $< $(CFLAGS) $(LIBS)
 tracelib:tracelib.cpp tracelib.hpp
-ifeq ($(DEBUG),1)
-	g++ -std=c++11 -o tracelib -g tracelib.cpp
-else
-	g++ -std=c++11 -o tracelib tracelib.cpp
-endif
+	$(CPP) -o $@ $< $(CPPFLAGS)
 clean:
-	rm -f tracelib *.txt test/*.exe
+	rm -f tracelib *.txt $(TEST_EXE) test_result/*.txt
 

@@ -30,26 +30,29 @@ Usage:\n\
 								
 
 void test(){
-	string filename("test");
-	string libname1("libc.so.6");
-	string libname2("libpthread.so.0");
+	string libname1("test/test_pthread");
 	loadlib(libname1);
-	loadlib(libname2);
 	//display_dependency(lib_info_map["libc.so.6"],"libc.so.6:");
 	//display_dependency(lib_info_map["libpthread.so.0"],"libpthread.so.0:");
 	//display_symtab(lib_info_map["libc.so.6"].symtab,lib_info_map["libc.so.6"].symtabsize,"libc.so.6 symbol table");
+	display_symtab(lib_info_map[libname1],"");
+	exit(-1);
 }
 
 int main(int argc,char *argv[]){
 	if( argc == 1 || (argc == 2 && argv[1] == "-v") || argc != 3 ){
+		for( int i = 0 ; i < argc ; i++ ){
+			cerr << argv[i] << " ";
+		}
+		cerr << endl;
 		cerr << help_message << endl;
 		return 0;
 	}
 	char flag = argv[2][1];
 
-	setdefaultpath();
 	string filename(argv[1]);
-
+	set_path_ld_verbose(filename);
+	//test();
 	sym_entry* dynsym;
 	Elf64_Xword dynsymsize;
 	vector<string> function;
@@ -69,20 +72,38 @@ int main(int argc,char *argv[]){
 			}
 		}
 	}
-	//display_symtab(lib_info_map["libc.so.6"],"");
+	delete[] dynsym;
 	queue<Node *> nodeq;
 	for( int i = 0 ; i < function.size() ; i++ ){
-		Node * node = graph.addnode(function[i],funclib[i],binds[i]);
+		Node * node = graph.addnode(function[i],funclib[i],binds[i],lib_info_map);
 		nodeq.push(node);
 	}
 	while( !nodeq.empty() ){
 		Node *node = nodeq.front();
 		nodeq.pop();
+		int sym_type = lib_info_map[node->lib].sym_type;
 		unordered_map<string,sym_entry*> &table = lib_info_map[node->lib].table;
 		vector<string> &dependency = lib_info_map[node->lib].dependency;
 
 		vector<string> out_funcs;
-		out_funcs = traverse(node->lib,node->func,table);
+		if( graph.libs.find(node->lib) == graph.libs.end() ){
+			graph.libs[node->lib] = sym_type;
+			if( sym_type == DYNAMIC_SYM ){
+				lib_info &l = lib_info_map[node->lib];
+				for( int i = 0 ; i < l.symtabsize ; i++ ){
+					if( l.symtab[i].st_shndx == SHN_UNDEF && l.symtab[i].type == STT_FUNC ){
+						out_funcs.push_back(l.symtab[i].name);
+					}
+				}
+				graph.removenode(node->func,node->lib);
+			}else if( sym_type == NORMAL_SYM ){
+				out_funcs = traverse(node->lib,node->func,table);
+			}
+		}else if( graph.libs[node->lib] == NORMAL_SYM ){
+			out_funcs = traverse(node->lib,node->func,table);
+		}else if( graph.libs[node->lib] == DYNAMIC_SYM ){
+			graph.removenode(node->func,node->lib);
+		}
 		for( int i = 0 ; i < out_funcs.size() ; i++ ){
 			//cout << node->func << "@" << node->lib << " -> " << out_funcs[i] << endl;
 			if( table.find(out_funcs[i]) == table.end() ){
@@ -97,23 +118,33 @@ int main(int argc,char *argv[]){
 					string new_lib = search_load_lib(new_dependency,out_funcs[i],table[out_funcs[i]]->bind);
 					if( new_lib == "" )
 						continue;
-					if( graph.find(out_funcs[i],new_lib) == NULL )
-						nodeq.push(graph.addnode(out_funcs[i],new_lib,lib_info_map[new_lib].table[out_funcs[i]]->bind));
+					if( graph.find_node(out_funcs[i],new_lib) == NULL )
+						nodeq.push(graph.addnode(out_funcs[i],new_lib,lib_info_map[new_lib].table[out_funcs[i]]->bind,lib_info_map));
 				}else{
-					if( graph.find(out_funcs[i],node->lib) == NULL ){
-						nodeq.push(graph.addnode(out_funcs[i],node->lib,table[out_funcs[i]]->bind));
+					if( graph.find_node(out_funcs[i],node->lib) == NULL ){
+						nodeq.push(graph.addnode(out_funcs[i],node->lib,table[out_funcs[i]]->bind,lib_info_map));
 					}
 				}
 			}
 			node->descendance.insert(nodeq.back());
 		}
 	}
-	for( int i = 0 ; i < graph.nodes.size() ; i++ ){
-		cout << graph.nodes[i]->func << "@" << graph.nodes[i]->lib << endl;
+	cout << "Required Libraries:" << endl;
+	for( auto it = graph.libs.begin() ; it != graph.libs.end() ; it++ ){
+		if( it->second == DYNAMIC_SYM )
+			cout << it->first << endl;
+	}
+	cout << endl;
+
+	cout << "Required Functions:" << endl;
+	for( auto it = graph.table.begin() ; it != graph.table.end() ; it++ ){
+		if( lib_info_map[it->second->lib].sym_type == DYNAMIC_SYM )
+			continue;
+		cout << it->second->func << "@" << it->second->lib << endl;
 		if( flag == 'a' )
-			cout << graph.nodes[i]->func_asm << endl;
+			cout << it->second->func_asm << endl;
 		if( flag == 't' ){
-			for( auto j = graph.nodes[i]->descendance.begin() ; j != graph.nodes[i]->descendance.end() ; j++ ){
+			for( auto j = it->second->descendance.begin() ; j != it->second->descendance.end() ; j++ ){
 				cout << "---->" << (*j)->func << "@" << (*j)->lib << endl;
 			} 
 			cout << endl;
@@ -147,7 +178,59 @@ string search_load_lib(vector<string> &dependency,string &function,unsigned char
 /*******************************************************************************
 	Set default search path
 *******************************************************************************/
-void setdefaultpath(){
+void set_path_ld_config(string &filename){
+	if( default_path.size() > 0 )
+		default_path.clear();
+	string interp_name;
+	ifstream infile(filename);
+
+	Elf64_Off shoff;
+	Elf64_Half shentsize;
+	Elf64_Half shnum;
+	Elf64_Half shstrndx;
+	Elf64_Off shstrtab;
+	Elf64_Xword shstrsize;
+
+	infile.seekg(E_SHOFF_OFFSET);
+	infile.read((char *)&shoff,sizeof(shoff));
+
+	infile.seekg(E_SHENTSIZE_OFFSET);
+	infile.read((char *)&shentsize,sizeof(shentsize));
+	infile.read((char *)&shnum,sizeof(shnum));
+	infile.read((char *)&shstrndx,sizeof(shstrndx));
+
+	infile.seekg(shoff+shentsize*shstrndx+2*sizeof(Elf64_Word)+sizeof(Elf64_Xword)+sizeof(Elf64_Addr));
+	infile.read((char *)&shstrtab,sizeof(shstrtab));
+	infile.read((char *)&shstrsize,sizeof(shstrsize));
+
+	infile.seekg(shstrtab);
+	char * shstr = new char[shstrsize];
+	infile.read((char *)shstr,shstrsize);
+
+	for( int i = 0 ; i < shnum ; i++ ){
+		Elf64_Word sh_name_index;
+		infile.seekg(shoff+shentsize*i);
+		infile.read((char *)&sh_name_index,sizeof(sh_name_index));
+		if( string(".interp").compare(&shstr[sh_name_index]) == 0 ){
+			Elf64_Off interp_off;
+			infile.seekg(shoff+shentsize*i+SH_OFFSET_OFFSET);
+			infile.read((char *)&interp_off,sizeof(interp_off));
+			
+			infile.seekg(interp_off);
+			char c;
+			infile.read(&c,sizeof(c));
+			while( c != 0 ){
+				interp_name.append(1,c);
+				infile.read(&c,sizeof(c));
+			}
+			break;
+		}
+	}
+	delete[] shstr;
+}
+void set_path_ld_verbose(string &filename){
+	if( default_path.size() > 0 )
+		default_path.clear();
 	system(string("ld --verbose | grep \"SEARCH_DIR(\\\"\" > default_path.txt").c_str());
 	ifstream infile("default_path.txt");
 	infile.seekg(0,ifstream::end);
@@ -166,9 +249,13 @@ void setdefaultpath(){
 		default_path.push_back(path);
 		spos = epos;
 	}
+	default_path.push_back(".");
 	delete[] buffer;
 }
 
+/*
+
+*/
 char* extract_asm(const char* objdump_buffer,sym_entry* sym){
 	char * func_asm;
 	char st_value_str[ST_VALUE_STR_SIZE];
@@ -207,7 +294,7 @@ vector<string> traverse(string &filename,string &func,unordered_map<string,sym_e
 		exit(-1);
 	}
 	*/
-	Node* node = graph.find(func,filename);
+	Node* node = graph.find_node(func,filename);
 	if( node == NULL ){
 		cerr << "ERROR 7: traversing non existing node (" << func << "@" << filename << ")" << endl;
 		exit(-1);
@@ -255,32 +342,15 @@ vector<string> traverse(string &filename,string &func,unordered_map<string,sym_e
 	}
 	return out_funcs;
 }
-/*
-void getshstrtab(ifstream &infile,char* &shstr,Elf64_Xword &shstrsize){
-	Elf64_Off shoff;
-	Elf64_Half shentsize;
-	Elf64_Half shnum;
-	Elf64_Half shstrndx;
-	Elf64_Off shstrtab;
-	//16+2+2+4+8+8=40
-	infile.seekg(40);
-	infile.read((char *)&shoff,sizeof(shoff));
-	//40+8+4+2+2+2=58
-	infile.seekg(58);
-	infile.read((char *)&shentsize,sizeof(shentsize));
-	infile.read((char *)&shnum,sizeof(shnum));
-	infile.read((char *)&shstrndx,sizeof(shstrndx));
-	infile.seekg(shoff+shentsize*shstrndx+2*sizeof(Elf64_Word)+sizeof(Elf64_Xword)+sizeof(Elf64_Addr));
-	infile.read((char *)&shstrtab,sizeof(shstrtab));
-	infile.read((char *)&shstrsize,sizeof(shstrsize));
-	infile.seekg(shstrtab);
-	shstr = new char[shstrsize];
-	infile.read((char *)shstr,shstrsize);
-}
-*/
 
 /***********************************************************************
-	Get File Lib Dependency
+	Search through DT_NEEDED entries in .dynamic section
+
+	parameter: 
+		filename: real path of a file or shared library
+
+	return:
+		a vector of relative path(filename) for needed shared library
 ***********************************************************************/
 vector<string> getdependlib(string &filename){
 	vector<string> dependency;
@@ -351,21 +421,130 @@ vector<string> getdependlib(string &filename){
 					dependency.push_back(string(&dynastr[d_val]));
 				}
 			}
+			delete[] shstr;
 			delete[] dynastr;
 			return dependency;
 		}
 	}
+	delete[] shstr;
 	return dependency;
 }
 
+/***********************************************************************
+	Load library information into lib_info_map hash map
+	
+	parameters:
+		lib_name: relative path for library name
+
+	return:
+		LOADLIB_EXIST: library was loaded before
+		LOADLIB_FAIL: cant not resolved library real path or library not exist
+		LOADLIB_SUCCESS: Success
+***********************************************************************/
+int loadlib(string lib_name){
+	if( lib_info_map.find(lib_name) != lib_info_map.end() ){
+		return LOADLIB_EXIST;
+	}
+	string lib_path;
+	if( !find_lib(lib_name,lib_path) ){
+		cerr << "ERROR 2: " << lib_name << " not exit" << endl;
+		return LOADLIB_FAIL;
+	}
+
+	sym_entry* symtab;
+	Elf64_Xword symtabsize;
+	char* lib_asm;
+	int sym_type;
+	if( getsym(lib_path,symtab,symtabsize) == GETSYM_SUCCESS ){
+		sym_type = NORMAL_SYM;
+	}else if( getdynsym(lib_path,symtab,symtabsize) == GETDYNSYM_SUCCESS ){
+		sym_type = DYNAMIC_SYM;
+	}else{
+		sym_type = NO_SYM;
+	}
+	if( sym_type == NO_SYM ){
+		cerr << "ERROR 3: fail to load symbol table(" << lib_name << ")" << endl; 
+		exit(-1);
+	}
+	if( (lib_asm = readasm(lib_path)) == NULL ){
+		cerr << "ERROR 4: fail to load asm text(" << lib_name << ")" << endl;
+		exit(-1);
+	}
+	
+	lib_info li(symtab,symtabsize,lib_asm,sym_type);
+	lib_info_map[lib_name] = li;
+	for( int i = 0 ; i < symtabsize ; i++ ){
+		lib_info_map[lib_name].table[symtab[i].name] = &symtab[i];
+	}
+
+	lib_info_map[lib_name].dependency = getdependlib(lib_path);
+	return LOADLIB_SUCCESS;
+}
 
 /***********************************************************************
-	Get dynamic symbol table
+	Complete library real path if library exist	
+
+	parameters:
+		lib_name: relative path of library
+		lib_path: set real path of library
+
+	return:
+		true: library exist
+		false: library not exist
+***********************************************************************/
+bool find_lib(string lib_name,string &lib_path){
+	for( int i = 0 ; i < default_path.size() ; i++ )
+		if(ifstream(default_path[i]+"/"+lib_name)){
+			lib_path = default_path[i]+"/"+lib_name;
+			return true;
+		}
+	return false;
+}
+
+/***********************************************************************
+	Return objdump text buffer
+	
+	parameters:
+		filename: real path of file
+
+	return:
+		objdump disassembly file
+***********************************************************************/
+char* readasm(string &filename){
+	char* buffer = NULL;
+	int buffersize;
+	system(string("objdump -d " + filename + " > asm_temp.txt").c_str());
+	ifstream asm_in("asm_temp.txt");
+	if( !asm_in )
+		return NULL;
+	asm_in.seekg(0,ifstream::end);
+	buffersize = asm_in.tellg();
+	buffersize += 2;
+	asm_in.seekg(0,ifstream::beg);
+	buffer = new char[buffersize];
+	asm_in.read((char *)buffer,buffersize-2);
+	buffer[buffersize-2] = '\n';
+	buffer[buffersize-1] = 0;
+	return buffer;
+}
+
+/***********************************************************************
+	Set dynamic symbol parameters based on .dynsym section
+
+	parameters:
+		filename:real path for file or shared library
+		dynsym:set dynsym to array of symbol table entries if .dynsym section exist
+		dynsymsize:set dynsymsize to size of array of symbol table entries if .dynsym section exist
+
+	return:
+		GETDYNSYM_SUCCESS: success to retrieved dynamic symbol table information
+		GETDYNSYM_NOFILE: filename file not exist
+		GETDYNSYM_NODYNSYM: .dynsym section not exist
 ***********************************************************************/
 int getdynsym(string filename,sym_entry* &dynsym,Elf64_Xword &dynsymsize){
 	ifstream infile(filename);
 	if( !infile )
-		return GETDYNSYM_FAIL;
+		return GETDYNSYM_NOFILE;
 	Elf64_Off shoff;
 	Elf64_Half shentsize;
 	Elf64_Half shnum;
@@ -441,84 +620,31 @@ int getdynsym(string filename,sym_entry* &dynsym,Elf64_Xword &dynsymsize){
 			infile.read((char *)&dynsym[j].st_shndx,sizeof(dynsym[j].st_shndx));
 			infile.read((char *)&dynsym[j].st_value,sizeof(dynsym[j].st_value));
 		}
+		delete[] shstr;
 		delete[] dynstr;
 		return GETDYNSYM_SUCCESS;
 	}else{
-		return GETDYNSYM_FAIL;
+		delete[] shstr;
+		return GETDYNSYM_NODYNSYM;
 	}
 }
 
 /***********************************************************************
-	Load lib function	
-***********************************************************************/
-int loadlib(string lib_name){
-	if( lib_info_map.find(lib_name) != lib_info_map.end() ){
-		return LOADLIB_EXIST;
-	}
-	string lib_path;
-	if( !find_lib(lib_name,lib_path) ){
-		cerr << "ERROR 2: " << lib_name << " not exit" << endl;
-		return LOADLIB_FAIL;
-	}
+	Set symbol parameters based on .symtab section
 
-	sym_entry* symtab;
-	Elf64_Xword symtabsize;
-	char* lib_asm;
-	if( getsym(lib_path,symtab,symtabsize) != GETSYM_SUCCESS ){
-		cerr << "ERROR 3: fail to load symbol table(" << lib_name << ")" << endl; 
-		exit(-1);
-	}
-	if( (lib_asm = readasm(lib_path)) == NULL ){
-		cerr << "ERROR 4: fail to load asm text(" << lib_name << ")" << endl;
-		exit(-1);
-	}
-	
-	lib_info li(symtab,symtabsize,lib_asm);
-	lib_info_map[lib_name] = li;
-	for( int i = 0 ; i < symtabsize ; i++ ){
-		lib_info_map[lib_name].table[symtab[i].name] = &symtab[i];
-	}
+	parameters:
+		filename:real path for file or shared library
 
-	lib_info_map[lib_name].dependency = getdependlib(lib_path);
-	return LOADLIB_SUCCESS;
-}
+		symtab:set symtab to array of symbol table entries
+		symtabsize:set symtabsize to size of array of symbol table entries
+			priority: 	1 .symtab section
+						2 .symtab section in .gnu_debuglink file
 
-
-/***********************************************************************
-	Complete lib path if lib exist	
-***********************************************************************/
-bool find_lib(string lib_name,string &lib_path){
-	for( int i = 0 ; i < default_path.size() ; i++ )
-		if(ifstream(default_path[i]+"/"+lib_name)){
-			lib_path = default_path[i]+"/"+lib_name;
-			return true;
-		}
-	return false;
-}
-
-/***********************************************************************
-	Return objdump text buffer
-***********************************************************************/
-char* readasm(string filename){
-	char* buffer = NULL;
-	int buffersize;
-	system(string("objdump -d " + filename + " > asm_temp.txt").c_str());
-	ifstream asm_in("asm_temp.txt");
-	if( !asm_in )
-		return NULL;
-	asm_in.seekg(0,ifstream::end);
-	buffersize = asm_in.tellg();
-	buffersize += 2;
-	asm_in.seekg(0,ifstream::beg);
-	buffer = new char[buffersize];
-	asm_in.read((char *)buffer,buffersize-2);
-	buffer[buffersize-2] = '\n';
-	buffer[buffersize-1] = 0;
-	return buffer;
-}
-
-/***********************************************************************
-	Get symbol table
+	return:
+		GETSYM_SUCCESS: success to retrieved symbol table information
+		GETSYM_NOFILE: filename file not exist
+		GETSYM_NODBG: DBG file not exist
+		GETSYM_NODBGSYM: DBG contain no symbol table
 ***********************************************************************/
 int getsym(string filename,sym_entry* &symtab,Elf64_Xword &symtabsize){
 	ifstream infile(filename);
@@ -606,6 +732,7 @@ int getsym(string filename,sym_entry* &symtab,Elf64_Xword &symtabsize){
 			infile.read((char *)&symtab[j].st_shndx,sizeof(symtab[j].st_shndx));
 			infile.read((char *)&symtab[j].st_value,sizeof(symtab[j].st_value));
 		}
+		delete[] shstr;
 		delete[] symstr;
 		infile.close();
 		return GETSYM_SUCCESS;
@@ -628,48 +755,98 @@ int getsym(string filename,sym_entry* &symtab,Elf64_Xword &symtabsize){
 		}
 		infile.close();
 
-		if( getsym(debug_name,symtab,symtabsize) == GETSYM_SUCCESS )
-			return GETSYM_SUCCESS;
-		else
+		infile.open(debug_name);
+		if( !infile ){
+			delete[] shstr;
 			return GETSYM_NODBG;
-	}else{
-		infile.close();
-		return GETSYM_NOSYMDBG;
-	}
-}
-/*
-bool getdebuglink(ifstream &infile,string &debug_file,char *shstr){
-	Elf64_Off shoff;
-	Elf64_Half shentsize;
-	Elf64_Half shnum;
-	infile.seekg(40);
-	infile.read((char *)&shoff,sizeof(shoff));
-	infile.seekg(58);
-	infile.read((char *)&shentsize,sizeof(shentsize));
-	infile.read((char *)&shnum,sizeof(shnum));
-	for( int i = 0 ; i < shnum ; i++ ){
-		Elf64_Word sh_name_index;
-		infile.seekg(shoff+shentsize*i);
-		infile.read((char *)&sh_name_index,sizeof(sh_name_index));
-		if( string(".gnu_debuglink").compare(&shstr[sh_name_index]) == 0 ){
-			Elf64_Off link_off;
-			Elf64_Xword link_size;
-			infile.seekg(shoff+shentsize*i+2*sizeof(Elf64_Word)+sizeof(Elf64_Xword)+sizeof(Elf64_Addr));
-			infile.read((char *)&link_off,sizeof(link_off));
-			infile.read((char *)&link_size,sizeof(link_size));
-			infile.seekg(link_off);
-			char c;
-			infile.read((char *)&c,sizeof(c));
-			while( c != 0 ){
-				debug_file.append(1,c);
-				infile.read((char *)&c,sizeof(c));
-			}
-			return true;
 		}
+
+		infile.seekg(E_SHOFF_OFFSET);
+		infile.read((char *)&shoff,sizeof(shoff));
+
+		infile.seekg(E_SHENTSIZE_OFFSET);
+		infile.read((char *)&shentsize,sizeof(shentsize));
+		infile.read((char *)&shnum,sizeof(shnum));
+		infile.read((char *)&shstrndx,sizeof(shstrndx));
+
+		infile.seekg(shoff+shentsize*shstrndx+SH_OFFSET_OFFSET);
+		infile.read((char *)&shstrtaboff,sizeof(shstrtaboff));
+		infile.read((char *)&shstrsize,sizeof(shstrsize));
+
+		delete[] shstr;
+		shstr = new char[shstrsize];
+		infile.seekg(shstrtaboff);
+		infile.read((char *)shstr,shstrsize);
+		for( int i = 0 ; i < shnum ; i++ ){
+			Elf64_Word sh_name_index;
+			infile.seekg(shoff+shentsize*i);
+			infile.read((char *)&sh_name_index,sizeof(sh_name_index));
+			if( string(".symtab").compare(&shstr[sh_name_index]) == 0 ){
+				symtab_index = i;
+				break;
+			}
+		}
+		if( symtab_index == -1 ){
+			delete[] shstr;
+			return GETSYM_NODBGSYM;
+		}
+
+		Elf64_Off symtaboff;
+		Elf64_Xword symtabentsize;
+		Elf64_Word symtablink;
+		Elf64_Off symstroff;
+		Elf64_Xword symstrsize;
+
+		infile.seekg(shoff+shentsize*symtab_index+SH_OFFSET_OFFSET);
+		infile.read((char *)&symtaboff,sizeof(symtaboff));
+		infile.read((char *)&symtabsize,sizeof(symtabsize));
+		infile.read((char *)&symtablink,sizeof(symtablink));
+
+		infile.seekg(shoff+shentsize*symtab_index+SH_ENTSIZE_OFFSET);
+		infile.read((char *)&symtabentsize,sizeof(symtabentsize));
+
+		infile.seekg(shoff+shentsize*symtablink+SH_OFFSET_OFFSET);
+		infile.read((char *)&symstroff,sizeof(symstroff));
+		infile.read((char *)&symstrsize,sizeof(symstrsize));
+
+		char * symstr = new char[symstrsize];
+		infile.seekg(symstroff);
+		infile.read((char *)symstr,symstrsize);
+
+		symtabsize /= symtabentsize;
+		symtab = new sym_entry[symtabsize];
+		for( int j = 0 ; j < symtabsize ; j++ ){
+			Elf64_Word st_name;
+
+			infile.seekg(symtaboff+symtabentsize*j);
+			infile.read((char *)&st_name,sizeof(st_name));
+			symtab[j].name = string(&symstr[st_name]);
+			size_t pos;
+			if( (pos = symtab[j].name.find('@')) != symtab[j].name.npos ){
+				symtab[j].name = symtab[j].name.substr(0,pos);
+			}
+			unsigned char c;
+			infile.read((char *)&c,sizeof(c));
+			symtab[j].bind = c>>4;
+			symtab[j].type = c&0xf;
+			infile.read((char *)&c,sizeof(c));
+			infile.read((char *)&symtab[j].st_shndx,sizeof(symtab[j].st_shndx));
+			infile.read((char *)&symtab[j].st_value,sizeof(symtab[j].st_value));
+		}
+		delete[] shstr;
+		delete[] symstr;
+		infile.close();
+		return GETSYM_SUCCESS;
+	}else{
+		delete[] shstr;
+		infile.close();
+		return GETSYM_NODBG;
 	}
-	return false;
 }
-*/
+
+
+
+
 
 //DEBUG FUNCTIONS
 void display_strtab(char* &strtab,Elf64_Xword &strtabsize,const char * title){
@@ -684,6 +861,7 @@ void display_symtab(lib_info &lib,const char * title){
 	sym_entry* symtab = lib.symtab;
 	Elf64_Xword symtabsize = lib.symtabsize;
 	cout << endl << title << endl;
+	cout << lib.sym_type << endl;
 	cout << left << setw(10) << "type" << setw(10) << "bind" << setw(10) << "shndx" << setw(15) << "st_value" << "name" << endl;
 	for( int i = 0 ; i < symtabsize ; i++ ){
 		cout << left << setw(10);

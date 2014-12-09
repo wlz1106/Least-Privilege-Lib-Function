@@ -1,5 +1,6 @@
 #include<string>
 #include<vector>
+#include<list>
 #include<unordered_set>
 
 using namespace std;
@@ -22,20 +23,28 @@ typedef struct symentry{
 	Elf64_Addr st_value;
 } sym_entry;
 
+#define NORMAL_SYM		0
+#define DYNAMIC_SYM		1
+#define	NO_SYM			2
 //LIBRARY INFORMATION
 class lib_info{
 public:
+	int sym_type;
+	bool is_used;
 	sym_entry* symtab;
 	Elf64_Xword symtabsize;
 	char* lib_asm;
 	unordered_map<string,sym_entry *> table;
 	vector<string> dependency;
 	lib_info(){
+		is_used = false;
 	}
-	lib_info(sym_entry* symtab,Elf64_Xword symtabsize,char* lib_asm){
+	lib_info(sym_entry* symtab,Elf64_Xword symtabsize,char* lib_asm,int sym_type){
 		this->symtab = symtab;
 		this->symtabsize = symtabsize;
 		this->lib_asm = lib_asm;
+		this->sym_type = sym_type;
+		this->is_used = false;
 	}
 };
 
@@ -61,24 +70,34 @@ public:
 		return func+"@"+lib;
 	}
 };
+
 class Graph{
 public:
-	vector<Node *> nodes;
-	Node* find(string &func,string &lib){
-		for( int i = 0 ; i < nodes.size() ; i++ ){
-			if( nodes[i]->func == func && nodes[i]->lib == lib ){
-				return nodes[i];
-			}
+	unordered_map<string,int> libs;
+	unordered_map<string,Node *> table;
+	Node* find_node(string &func,string &lib){
+		string key(func+'@'+lib);
+		if( table.find(key) == table.end() ){
+			return NULL;
+		}else{
+			return table[key];
 		}
-		return NULL;
 	}
-	Node* addnode(string func,string lib,unsigned char bind){
+	Node* addnode(string func,string lib,unsigned char bind,unordered_map<string,lib_info> &lib_info_map){
 		Node* node = new Node(func,lib,bind);
-		nodes.push_back(node);
+		string key(func+'@'+lib);
+		table[key] = node;
 		return node;
 	}
+	bool removenode(string &func,string &lib){
+		if( find_node(func,lib) ){
+			string key(func+'@'+lib);
+			table.erase(key);
+			return true;
+		}else
+			return false;
+	}
 };
-
 
 //SECTION INDEX
 #define SHN_UNDEF	0x0000
@@ -130,22 +149,23 @@ public:
 #define	SH_ENTSIZE_OFFSET	sizeof(Elf64_Word)*4+sizeof(Elf64_Xword)*3+sizeof(Elf64_Addr)+sizeof(Elf64_Off)
 
 //INITIALIZATION FUNCTIONS
-void setdefaultpath();
+void set_path_ld_verbose(string &filename);
+void set_path_ld_config(string &filename);
 
 //RETURN VALUE OF getdynsym()
-#define GETDYNSYM_SUCCESS 0
-#define GETDYNSYM_FAIL	  1
+#define GETDYNSYM_SUCCESS 	0
+#define GETDYNSYM_NOFILE  	1
+#define GETDYNSYM_NODYNSYM	2
 int getdynsym(string,sym_entry* &,Elf64_Xword &);
 
 //RETURN VALUE OF getsym()
-#define GETSYM_SUCCESS	 0
-#define GETSYM_NOFILE 	 1
-#define GETSYM_NODBG	 2
-#define GETSYM_NOSYM	 3
-#define	GETSYM_NOSYMDBG  4
+#define GETSYM_SUCCESS	 	0
+#define GETSYM_NOFILE 	 	1
+#define GETSYM_NODBG	 	2
+#define GETSYM_NODBGSYM	 	3
 int	getsym(string,sym_entry* &,Elf64_Xword &);
 
-char* readasm(string);
+char* readasm(string &);
 
 //RETURN VALUE OF loadlib()
 #define LOADLIB_SUCCESS	0
