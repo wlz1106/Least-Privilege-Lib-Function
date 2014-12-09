@@ -51,7 +51,8 @@ int main(int argc,char *argv[]){
 	char flag = argv[2][1];
 
 	string filename(argv[1]);
-	set_path_ld_verbose(filename);
+	set_path_ld_verbose();
+
 	//test();
 	sym_entry* dynsym;
 	Elf64_Xword dynsymsize;
@@ -61,7 +62,13 @@ int main(int argc,char *argv[]){
 	vector<string> dependency;
 	dependency = getdependlib(filename);
 
-	getdynsym(filename,dynsym,dynsymsize);
+	int result = getdynsym(filename,dynsym,dynsymsize);
+	if( result == GETDYNSYM_NODYNSYM ){
+		cout << "No dynamic section" << endl;
+		cout << "No traced Perform" << endl;
+		return 0;
+	}
+		
 	for( int i = 0 ; i < dynsymsize ; i++ ){
 		if( dynsym[i].type == STT_FUNC && dynsym[i].st_shndx == SHN_UNDEF ){
 			string flib = search_load_lib(dependency,dynsym[i].name,dynsym[i].bind);
@@ -72,6 +79,7 @@ int main(int argc,char *argv[]){
 			}
 		}
 	}
+
 	delete[] dynsym;
 	queue<Node *> nodeq;
 	for( int i = 0 ; i < function.size() ; i++ ){
@@ -81,6 +89,7 @@ int main(int argc,char *argv[]){
 	while( !nodeq.empty() ){
 		Node *node = nodeq.front();
 		nodeq.pop();
+		//cerr << node->func+'@'+node->lib << endl;
 		int sym_type = lib_info_map[node->lib].sym_type;
 		unordered_map<string,sym_entry*> &table = lib_info_map[node->lib].table;
 		vector<string> &dependency = lib_info_map[node->lib].dependency;
@@ -129,7 +138,7 @@ int main(int argc,char *argv[]){
 			node->descendance.insert(nodeq.back());
 		}
 	}
-	cout << "Required Libraries:" << endl;
+	cout << "Untraced Libraries:" << endl;
 	for( auto it = graph.libs.begin() ; it != graph.libs.end() ; it++ ){
 		if( it->second == DYNAMIC_SYM )
 			cout << it->first << endl;
@@ -228,7 +237,7 @@ void set_path_ld_config(string &filename){
 	}
 	delete[] shstr;
 }
-void set_path_ld_verbose(string &filename){
+void set_path_ld_verbose(){
 	if( default_path.size() > 0 )
 		default_path.clear();
 	system(string("ld --verbose | grep \"SEARCH_DIR(\\\"\" > default_path.txt").c_str());

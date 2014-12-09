@@ -149,7 +149,7 @@ public:
 #define	SH_ENTSIZE_OFFSET	sizeof(Elf64_Word)*4+sizeof(Elf64_Xword)*3+sizeof(Elf64_Addr)+sizeof(Elf64_Off)
 
 //INITIALIZATION FUNCTIONS
-void set_path_ld_verbose(string &filename);
+void set_path_ld_verbose();
 void set_path_ld_config(string &filename);
 
 //RETURN VALUE OF getdynsym()
