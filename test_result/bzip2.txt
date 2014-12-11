@@ -1,4 +1,4 @@
-/bin/bzcat
+/bin/bzip2
 Untraced Libraries:
 libbz2.so.1.0
 

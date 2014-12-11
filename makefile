@@ -1,8 +1,8 @@
 LIBS=-lpthread -lm
 CPPFLAGS=-std=c++11
 CFLAGS=-std=c99
-CC=gcc-4.8
-CPP=g++-4.8
+CC=gcc
+CPP=g++
 
 TEST_SRC=$(wildcard test/test_*.c)
 TEST_EXE=$(TEST_SRC:%.c=%)

@@ -1,3 +1,4 @@
+/bin/grep
 Untraced Libraries:
 libpcre.so.3
 
@@ -475,3 +476,4 @@ pmap_getport@libc.so.6
 xdr_vector@libc.so.6
 freeifaddrs@libc.so.6
 authunix_create@libc.so.6
+

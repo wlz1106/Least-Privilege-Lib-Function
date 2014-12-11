@@ -1,3 +1,4 @@
+/bin/ntfs-3g
 Untraced Libraries:
 libfuse.so.2
 libntfs-3g.so.841
@@ -103,6 +104,7 @@ _IO_sputbackc@libc.so.6
 getlogin_r@libc.so.6
 strcspn@libc.so.6
 fnmatch@libc.so.6
+pipe2@libc.so.6
 __isinfl@libc.so.6
 setsid@libc.so.6
 dup2@libc.so.6
@@ -163,7 +165,6 @@ writev@libc.so.6
 fcntl@libpthread.so.0
 __libc_malloc@libc.so.6
 _IO_vfprintf@libc.so.6
-pipe2@libc.so.6
 sendmsg@libc.so.6
 __xstat@libc.so.6
 __strncpy_chk@libc.so.6
@@ -320,8 +321,6 @@ sysconf@libc.so.6
 sched_get_priority_min@libc.so.6
 pthread_setspecific@libpthread.so.0
 sscanf@libc.so.6
-kill@libc.so.6
-write@libpthread.so.0
 getegid@libc.so.6
 getline@libc.so.6
 _IO_file_doallocate@libc.so.6
@@ -337,6 +336,8 @@ execv@libc.so.6
 dlopen@libdl.so.2
 readdir@libc.so.6
 sem_wait@libpthread.so.0
+write@libpthread.so.0
+kill@libc.so.6
 pread@libc.so.6
 sigemptyset@libc.so.6
 authnone_create@libc.so.6
@@ -581,3 +582,4 @@ sigaction@libpthread.so.0
 __fxstatat@libc.so.6
 _dl_mcount@ld-linux-x86-64.so.2
 __waitpid@libc.so.6
+

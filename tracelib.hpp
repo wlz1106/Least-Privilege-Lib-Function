@@ -13,6 +13,55 @@ typedef unsigned int Elf64_Word;
 typedef signed int Elf64_Sword;
 typedef unsigned long Elf64_Xword;
 typedef signed long Elf64_Sxword;
+//SECTION INDEX
+#define SHN_UNDEF	0x0000
+#define	SHN_LOPROC	0xff00
+#define SHN_HIPROC	0xff1f
+#define SHN_LOOS	0xff20
+#define SHN_HIOS	0xff3f
+#define SHN_ABS		0xfff1 
+#define	SHN_COMMON	0xfff2
+
+//BINDINGS IN SYMBOL TABLE
+#define STB_LOCAL 	0
+#define STB_GLOBAL 	1
+#define STB_WEAK 	2
+#define STB_LOOS	10
+#define STB_HIOS	12
+#define STB_LOPROC	13
+#define STB_HIPROC	15
+
+//TYPES IN SYMBOL TABLE
+#define STT_NOTYPE	0
+#define STT_OBJECT	1
+#define STT_FUNC	2
+#define STT_SECTION	3
+#define STT_FILE	4
+#define STT_LOOS	10
+#define STT_HIOS	12
+#define STT_LOPROC	13
+#define STT_HIPROC	15
+
+//DYNAMIC TABLE TYPE
+#define	DT_NULL		0
+#define DT_NEEDED	1
+
+//OFFSETS INTO ELF HEADER
+#define	E_SHOFF_OFFSET		sizeof(unsigned char)*16+sizeof(Elf64_Half)*2+sizeof(Elf64_Word)+sizeof(Elf64_Addr)+sizeof(Elf64_Off) //40
+#define E_SHENTSIZE_OFFSET	sizeof(unsigned char)*16+sizeof(Elf64_Half)*5+sizeof(Elf64_Word)*2+sizeof(Elf64_Addr)+sizeof(Elf64_Off)*2 //58
+
+//OFFSETS INTO SECTION HEADER
+#define SH_NAME_OFFSET		0
+#define SH_TYPE_OFFSET		sizeof(Elf64_Word)  
+#define SH_FLAGS_OFFSET		sizeof(Elf64_Word)*2
+#define SH_ADDR_OFFSET		sizeof(Elf64_Word)*2+sizeof(Elf64_Xword)
+#define SH_OFFSET_OFFSET 	sizeof(Elf64_Word)*2+sizeof(Elf64_Xword)+sizeof(Elf64_Addr)
+#define SH_SIZE_OFFSET 		sizeof(Elf64_Word)*2+sizeof(Elf64_Xword)+sizeof(Elf64_Addr)+sizeof(Elf64_Off)
+#define SH_LINK_OFFSET		sizeof(Elf64_Word)*2+sizeof(Elf64_Xword)*2+sizeof(Elf64_Addr)+sizeof(Elf64_Off)
+#define	SH_INFO_OFFSET		sizeof(Elf64_Word)*3+sizeof(Elf64_Xword)*2+sizeof(Elf64_Addr)+sizeof(Elf64_Off)
+#define	SH_ADDRALIGN_OFFSET	sizeof(Elf64_Word)*4+sizeof(Elf64_Xword)*2+sizeof(Elf64_Addr)+sizeof(Elf64_Off)
+#define	SH_ENTSIZE_OFFSET	sizeof(Elf64_Word)*4+sizeof(Elf64_Xword)*3+sizeof(Elf64_Addr)+sizeof(Elf64_Off)
+
 
 //SYMBOL TABLE ENTRY
 typedef struct symentry{
@@ -36,6 +85,7 @@ public:
 	char* lib_asm;
 	unordered_map<string,sym_entry *> table;
 	vector<string> dependency;
+	Elf64_Xword func_sym_count;
 	lib_info(){
 		is_used = false;
 	}
@@ -45,6 +95,16 @@ public:
 		this->lib_asm = lib_asm;
 		this->sym_type = sym_type;
 		this->is_used = false;
+	}
+	void count_func(){
+		func_sym_count = 0;
+		unordered_set<Elf64_Addr> addr_set;
+		for( int i = 0 ; i < symtabsize ; i++ ){
+			if( symtab[i].type == STT_FUNC && symtab[i].st_shndx != SHN_UNDEF && addr_set.find(symtab[i].st_value) == addr_set.end() ){
+				addr_set.insert(symtab[i].st_value);
+				func_sym_count++;
+			}
+		}
 	}
 };
 
@@ -99,58 +159,9 @@ public:
 	}
 };
 
-//SECTION INDEX
-#define SHN_UNDEF	0x0000
-#define	SHN_LOPROC	0xff00
-#define SHN_HIPROC	0xff1f
-#define SHN_LOOS	0xff20
-#define SHN_HIOS	0xff3f
-#define SHN_ABS		0xfff1 
-#define	SHN_COMMON	0xfff2
-
-//BINDINGS IN SYMBOL TABLE
-#define STB_LOCAL 	0
-#define STB_GLOBAL 	1
-#define STB_WEAK 	2
-#define STB_LOOS	10
-#define STB_HIOS	12
-#define STB_LOPROC	13
-#define STB_HIPROC	15
-
-//TYPES IN SYMBOL TABLE
-#define STT_NOTYPE	0
-#define STT_OBJECT	1
-#define STT_FUNC	2
-#define STT_SECTION	3
-#define STT_FILE	4
-#define STT_LOOS	10
-#define STT_HIOS	12
-#define STT_LOPROC	13
-#define STT_HIPROC	15
-
-//DYNAMIC TABLE TYPE
-#define	DT_NULL		0
-#define DT_NEEDED	1
-
-//OFFSETS INTO ELF HEADER
-#define	E_SHOFF_OFFSET		sizeof(unsigned char)*16+sizeof(Elf64_Half)*2+sizeof(Elf64_Word)+sizeof(Elf64_Addr)+sizeof(Elf64_Off) //40
-#define E_SHENTSIZE_OFFSET	sizeof(unsigned char)*16+sizeof(Elf64_Half)*5+sizeof(Elf64_Word)*2+sizeof(Elf64_Addr)+sizeof(Elf64_Off)*2 //58
-
-//OFFSETS INTO SECTION HEADER
-#define SH_NAME_OFFSET		0
-#define SH_TYPE_OFFSET		sizeof(Elf64_Word)  
-#define SH_FLAGS_OFFSET		sizeof(Elf64_Word)*2
-#define SH_ADDR_OFFSET		sizeof(Elf64_Word)*2+sizeof(Elf64_Xword)
-#define SH_OFFSET_OFFSET 	sizeof(Elf64_Word)*2+sizeof(Elf64_Xword)+sizeof(Elf64_Addr)
-#define SH_SIZE_OFFSET 		sizeof(Elf64_Word)*2+sizeof(Elf64_Xword)+sizeof(Elf64_Addr)+sizeof(Elf64_Off)
-#define SH_LINK_OFFSET		sizeof(Elf64_Word)*2+sizeof(Elf64_Xword)*2+sizeof(Elf64_Addr)+sizeof(Elf64_Off)
-#define	SH_INFO_OFFSET		sizeof(Elf64_Word)*3+sizeof(Elf64_Xword)*2+sizeof(Elf64_Addr)+sizeof(Elf64_Off)
-#define	SH_ADDRALIGN_OFFSET	sizeof(Elf64_Word)*4+sizeof(Elf64_Xword)*2+sizeof(Elf64_Addr)+sizeof(Elf64_Off)
-#define	SH_ENTSIZE_OFFSET	sizeof(Elf64_Word)*4+sizeof(Elf64_Xword)*3+sizeof(Elf64_Addr)+sizeof(Elf64_Off)
-
 //INITIALIZATION FUNCTIONS
 void set_path_ld_verbose();
-void set_path_ld_config(string &filename);
+void set_path_ld_config();
 
 //RETURN VALUE OF getdynsym()
 #define GETDYNSYM_SUCCESS 	0

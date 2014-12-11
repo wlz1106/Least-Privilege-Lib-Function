@@ -1,7 +1,5 @@
 Tracing Shared Library Function
 
-1.dbg version of library function is needed
+1.*ABS* in callq is not handle
 
-2.*ABS* in callq is not handle
-
-3.callq <function+offset> is handled as callq <function>
+2.ratio.txt in test_result folder contains ratio of attack surface for bin utilities

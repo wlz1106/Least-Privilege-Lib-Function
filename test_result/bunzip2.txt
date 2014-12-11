@@ -1,3 +1,4 @@
+/bin/bunzip2
 Untraced Libraries:
 libbz2.so.1.0
 
@@ -376,9 +377,9 @@ malloc@ld-linux-x86-64.so.2
 inet_nsap_ntoa@libc.so.6
 _IO_setb@libc.so.6
 free@ld-linux-x86-64.so.2
+kill@libc.so.6
 _IO_vfprintf@libc.so.6
 pipe2@libc.so.6
-kill@libc.so.6
 setenv@libc.so.6
 clnt_create@libc.so.6
 strrchr@libc.so.6
@@ -403,3 +404,4 @@ rewinddir@libc.so.6
 __stpcpy@libc.so.6
 ustat@libc.so.6
 __isinfl@libc.so.6
+

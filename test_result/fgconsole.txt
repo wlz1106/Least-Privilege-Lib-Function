@@ -1,3 +1,4 @@
+/bin/fgconsole
 Untraced Libraries:
 
 Required Functions:
@@ -395,3 +396,4 @@ wcsnlen@libc.so.6
 __fork@libc.so.6
 __strtod_l@libc.so.6
 __isnanl@libc.so.6
+

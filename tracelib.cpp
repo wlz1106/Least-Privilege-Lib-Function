@@ -9,6 +9,7 @@
 #include<unordered_map>
 #include<unordered_set>
 #include<queue>
+#include<dirent.h>
 #include"tracelib.hpp"
 
 using namespace std;
@@ -26,6 +27,7 @@ Usage:\n\
 2:	./tracelib filename -f				#printf functions used\n\
 3:	./tracelib filename -t				#printf functions trace\n\
 4:	./tracelib filename -a				#printf functions assembly\n\
+5:	./tracelib filename -cc				#printf functions ratio\n\
 ";
 								
 
@@ -50,8 +52,10 @@ int main(int argc,char *argv[]){
 	}
 	char flag = argv[2][1];
 
+
 	string filename(argv[1]);
-	set_path_ld_verbose();
+	//set_path_ld_verbose();
+	set_path_ld_config();
 
 	//test();
 	sym_entry* dynsym;
@@ -138,6 +142,8 @@ int main(int argc,char *argv[]){
 			node->descendance.insert(nodeq.back());
 		}
 	}
+
+	cout << filename << endl;
 	cout << "Untraced Libraries:" << endl;
 	for( auto it = graph.libs.begin() ; it != graph.libs.end() ; it++ ){
 		if( it->second == DYNAMIC_SYM )
@@ -146,19 +152,42 @@ int main(int argc,char *argv[]){
 	cout << endl;
 
 	cout << "Required Functions:" << endl;
-	for( auto it = graph.table.begin() ; it != graph.table.end() ; it++ ){
-		if( lib_info_map[it->second->lib].sym_type == DYNAMIC_SYM )
-			continue;
-		cout << it->second->func << "@" << it->second->lib << endl;
-		if( flag == 'a' )
-			cout << it->second->func_asm << endl;
-		if( flag == 't' ){
-			for( auto j = it->second->descendance.begin() ; j != it->second->descendance.end() ; j++ ){
-				cout << "---->" << (*j)->func << "@" << (*j)->lib << endl;
-			} 
-			cout << endl;
+	if( flag == 'f' ){
+		for( auto it = graph.table.begin() ; it != graph.table.end() ; it++ ){
+			cout << it->second->func << "@" << it->second->lib << endl;
 		}
+	}else if( flag == 't' ){
+		for( auto it = graph.table.begin() ; it != graph.table.end() ; it++ ){
+			cout << it->second->func << "@" << it->second->lib << endl;
+			for( auto j = it->second->descendance.begin() ; j != it->second->descendance.end() ; j++ ){
+				cout << "  -->" << (*j)->func << "@" << (*j)->lib << endl;
+			} 
+		}
+	}else if( flag == 'a' ){
+		for( auto it = graph.table.begin() ; it != graph.table.end() ; it++ ){
+			cout << it->second->func << "@" << it->second->lib << endl;
+			cout << it->second->func_asm << endl;
+		}
+	}else if( flag == 'c' ){
+		unordered_map<string,int> lib_count;
+		int used_total = 0;
+		int total = 0;
+		for( auto it = graph.table.begin() ; it != graph.table.end() ; it++ ){
+			if( lib_count.find(it->second->lib)== lib_count.end() ){
+				lib_count[it->second->lib] = 0;
+				lib_info_map[it->second->lib].count_func();
+				total += lib_info_map[it->second->lib].func_sym_count;
+			}else{
+				lib_count[it->second->lib]++;
+				used_total++;
+			}
+		}
+		for( auto it = lib_count.begin() ; it != lib_count.end() ; it++ ){
+			cout << setw(30) << left << it->first << it->second << " out of " << lib_info_map[it->first].func_sym_count << endl;
+		}
+		cout << "Total Ratio --> " << used_total << " out of " << total << endl;
 	}
+	cout << endl;
 	//test();
 
 	return 0;
@@ -187,7 +216,41 @@ string search_load_lib(vector<string> &dependency,string &function,unsigned char
 /*******************************************************************************
 	Set default search path
 *******************************************************************************/
-void set_path_ld_config(string &filename){
+void set_path_ld_config(){
+	default_path.clear();
+	ifstream infile("/etc/ld.so.conf");
+	string line;
+	while(getline(infile,line)){
+		if( line[0] == '/' ){
+			if( line.find("32") == string::npos && line.find("i386") == string::npos ){
+				default_path.push_back(line);
+				//cout << default_path.back() << endl;
+			}
+		}else if( line.find_first_of("include") != string::npos ){
+			DIR* dir;
+			struct dirent *ent;
+			if( (dir = opendir("/etc/ld.so.conf.d")) != NULL ){
+				while( (ent = readdir(dir)) != NULL ){
+					if(strcmp(ent->d_name,".")==0||strcmp(ent->d_name,"..")==0)continue;
+					ifstream infile2(string("/etc/ld.so.conf.d/").append(ent->d_name));
+					string line2;
+					while(getline(infile2,line2)){
+						if( line2[0] == '/' && line2.find("32") == string::npos && line2.find("i386") == string::npos ){
+							default_path.push_back(line2);
+							//cout << default_path.back() << endl;
+						}
+					}
+					infile2.close();
+				}
+			} 
+		}
+	}
+	infile.close();
+	return;
+	for( int i = 0 ; i < default_path.size() ; i++ )
+		cout << default_path[i] << endl;
+	//exit(0);
+	/*
 	if( default_path.size() > 0 )
 		default_path.clear();
 	string interp_name;
@@ -215,7 +278,8 @@ void set_path_ld_config(string &filename){
 	infile.seekg(shstrtab);
 	char * shstr = new char[shstrsize];
 	infile.read((char *)shstr,shstrsize);
-
+	*/
+	/*
 	for( int i = 0 ; i < shnum ; i++ ){
 		Elf64_Word sh_name_index;
 		infile.seekg(shoff+shentsize*i);
@@ -235,7 +299,8 @@ void set_path_ld_config(string &filename){
 			break;
 		}
 	}
-	delete[] shstr;
+	*/
+	//delete[] shstr;
 }
 void set_path_ld_verbose(){
 	if( default_path.size() > 0 )

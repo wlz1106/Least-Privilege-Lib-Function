@@ -1,3 +1,4 @@
+/bin/bash
 Untraced Libraries:
 libtinfo.so.5
 
@@ -66,9 +67,9 @@ strcspn@libc.so.6
 fnmatch@libc.so.6
 unsetenv@libc.so.6
 __dup2@libc.so.6
+pipe2@libc.so.6
 __waitpid@libc.so.6
 __pipe@libc.so.6
-pipe2@libc.so.6
 _dl_deallocate_tls@ld-linux-x86-64.so.2
 calloc@ld-linux-x86-64.so.2
 readv@libc.so.6
@@ -568,3 +569,4 @@ eaccess@libc.so.6
 fgets_unlocked@libc.so.6
 wcsftime@libc.so.6
 __strtod_l@libc.so.6
+

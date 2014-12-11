@@ -1,3 +1,4 @@
+/bin/setfont
 Untraced Libraries:
 
 Required Functions:
@@ -423,3 +424,4 @@ strcpy@libc.so.6
 putchar_unlocked@libc.so.6
 lrand48_r@libc.so.6
 __rpc_thread_svc_fdset@libc.so.6
+

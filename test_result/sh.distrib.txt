@@ -1,3 +1,4 @@
+/bin/sh.distrib
 Untraced Libraries:
 
 Required Functions:
@@ -447,3 +448,4 @@ xdrmem_create@libc.so.6
 xdr_opaque_auth@libc.so.6
 setcontext@libc.so.6
 bindresvport@libc.so.6
+

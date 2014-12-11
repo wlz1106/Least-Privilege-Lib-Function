@@ -1,3 +1,4 @@
+/bin/netcat
 Untraced Libraries:
 libbsd.so.0
 
@@ -474,3 +475,4 @@ get_myaddress@libc.so.6
 vasprintf@libc.so.6
 recvfrom@libc.so.6
 pmap_getport@libc.so.6
+

@@ -1,3 +1,4 @@
+/bin/fusermount
 Untraced Libraries:
 
 Required Functions:
@@ -422,3 +423,4 @@ lrand48_r@libc.so.6
 __rpc_thread_svc_fdset@libc.so.6
 __close@libc.so.6
 xdr_double@libc.so.6
+

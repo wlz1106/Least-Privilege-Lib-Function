@@ -1,3 +1,4 @@
+/bin/ss
 Untraced Libraries:
 
 Required Functions:
@@ -446,3 +447,4 @@ freeifaddrs@libc.so.6
 xdr_authunix_parms@libc.so.6
 rtime@libc.so.6
 clntudp_bufcreate@libc.so.6
+
