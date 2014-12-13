@@ -1,0 +1,2 @@
+/bin/bzfgrep contains no dynamic symbol table
+

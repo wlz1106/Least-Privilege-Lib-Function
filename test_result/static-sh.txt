@@ -1,0 +1,2 @@
+/bin/static-sh contains no dynamic symbol table
+

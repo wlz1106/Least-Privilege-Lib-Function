@@ -1,0 +1,2 @@
+/bin/zcmp contains no dynamic symbol table
+

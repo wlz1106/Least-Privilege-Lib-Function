@@ -16,7 +16,7 @@ tracelib:tracelib.cpp tracelib.hpp
 	$(CPP) -o $@ $< $(CPPFLAGS)
 clean:
 	rm -f tracelib *.txt $(TEST_EXE) 
-ifeq ($(KEEP_RESULT),1)	
+ifeq ($(CLEAN_RESULT),1)	
 	./clean_test_result.sh
 endif
 

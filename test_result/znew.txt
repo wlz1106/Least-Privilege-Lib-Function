@@ -1,0 +1,2 @@
+/bin/znew contains no dynamic symbol table
+

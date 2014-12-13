@@ -1,0 +1,2 @@
+/bin/bzgrep contains no dynamic symbol table
+

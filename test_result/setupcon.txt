@@ -1,0 +1,2 @@
+/bin/setupcon contains no dynamic symbol table
+

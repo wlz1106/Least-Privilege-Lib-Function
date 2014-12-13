@@ -1,0 +1,2 @@
+/bin/bzexe contains no dynamic symbol table
+

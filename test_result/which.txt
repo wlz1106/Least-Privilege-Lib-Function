@@ -1,0 +1,2 @@
+/bin/which contains no dynamic symbol table
+

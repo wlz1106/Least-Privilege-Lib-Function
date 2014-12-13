@@ -1,0 +1,2 @@
+/bin/zdiff contains no dynamic symbol table
+

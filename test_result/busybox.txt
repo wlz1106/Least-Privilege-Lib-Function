@@ -1,2 +1,2 @@
-No dynamic section
-No traced Perform
+/bin/busybox contains no dynamic symbol table
+

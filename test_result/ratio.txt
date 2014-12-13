@@ -1,3 +1,5 @@
+Ratio Test
+
 /bin/bash
 Untraced Libraries:
 libtinfo.so.5
@@ -8,6 +10,291 @@ ld-linux-x86-64.so.2          10 out of 197
 libc.so.6                     549 out of 3292
 Total Ratio --> 563 out of 3516
 
+/bin/bunzip2
+Untraced Libraries:
+libbz2.so.1.0
+
+Required Functions:
+ld-linux-x86-64.so.2          10 out of 197
+libc.so.6                     389 out of 3292
+Total Ratio --> 399 out of 3489
+
+/bin/busybox contains no dynamic symbol table
+
+/bin/bzcat
+Untraced Libraries:
+libbz2.so.1.0
+
+Required Functions:
+ld-linux-x86-64.so.2          10 out of 197
+libc.so.6                     389 out of 3292
+Total Ratio --> 399 out of 3489
+
+/bin/bzcmp contains no dynamic symbol table
+
+/bin/bzdiff contains no dynamic symbol table
+
+/bin/bzegrep contains no dynamic symbol table
+
+/bin/bzexe contains no dynamic symbol table
+
+/bin/bzfgrep contains no dynamic symbol table
+
+/bin/bzgrep contains no dynamic symbol table
+
+/bin/bzip2
+Untraced Libraries:
+libbz2.so.1.0
+
+Required Functions:
+ld-linux-x86-64.so.2          10 out of 197
+libc.so.6                     389 out of 3292
+Total Ratio --> 399 out of 3489
+
+/bin/bzip2recover
+Untraced Libraries:
+
+Required Functions:
+ld-linux-x86-64.so.2          10 out of 197
+libc.so.6                     376 out of 3292
+Total Ratio --> 386 out of 3489
+
+/bin/bzless contains no dynamic symbol table
+
+/bin/bzmore contains no dynamic symbol table
+
+/bin/cat
+Untraced Libraries:
+
+Required Functions:
+ld-linux-x86-64.so.2          10 out of 197
+libc.so.6                     423 out of 3292
+Total Ratio --> 433 out of 3489
+
+/bin/chacl
+Untraced Libraries:
+libattr.so.1
+libacl.so.1
+
+Required Functions:
+ld-linux-x86-64.so.2          10 out of 197
+libc.so.6                     413 out of 3292
+Total Ratio --> 423 out of 3489
+
+/bin/chgrp
+Untraced Libraries:
+
+Required Functions:
+ld-linux-x86-64.so.2          10 out of 197
+libc.so.6                     424 out of 3292
+Total Ratio --> 434 out of 3489
+
+/bin/chmod
+Untraced Libraries:
+
+Required Functions:
+ld-linux-x86-64.so.2          10 out of 197
+libc.so.6                     413 out of 3292
+Total Ratio --> 423 out of 3489
+
+/bin/chown
+Untraced Libraries:
+
+Required Functions:
+ld-linux-x86-64.so.2          10 out of 197
+libc.so.6                     426 out of 3292
+Total Ratio --> 436 out of 3489
+
+/bin/chvt
+Untraced Libraries:
+
+Required Functions:
+ld-linux-x86-64.so.2          10 out of 197
+libc.so.6                     378 out of 3292
+Total Ratio --> 388 out of 3489
+
+/bin/cp
+Untraced Libraries:
+libpcre.so.3
+libattr.so.1
+libselinux.so.1
+libacl.so.1
+
+Required Functions:
+libdl.so.2                    4 out of 27
+ld-linux-x86-64.so.2          10 out of 197
+libc.so.6                     536 out of 3292
+Total Ratio --> 550 out of 3516
+
+/bin/cpio
+Untraced Libraries:
+
+Required Functions:
+ld-linux-x86-64.so.2          10 out of 197
+libc.so.6                     462 out of 3292
+Total Ratio --> 472 out of 3489
+
+/bin/dash
+Untraced Libraries:
+
+Required Functions:
+ld-linux-x86-64.so.2          10 out of 197
+libc.so.6                     434 out of 3292
+Total Ratio --> 444 out of 3489
+
+/bin/date
+Untraced Libraries:
+
+Required Functions:
+ld-linux-x86-64.so.2          10 out of 197
+libc.so.6                     428 out of 3292
+Total Ratio --> 438 out of 3489
+
+/bin/dbus-cleanup-sockets
+Untraced Libraries:
+
+Required Functions:
+ld-linux-x86-64.so.2          10 out of 197
+libc.so.6                     376 out of 3292
+Total Ratio --> 386 out of 3489
+
+/bin/dbus-daemon
+Untraced Libraries:
+libnih.so.1
+libdbus-1.so.3
+libcgmanager.so.0
+libnih-dbus.so.1
+libselinux.so.1
+libapparmor.so.1
+libexpat.so.1
+libsystemd-login.so.0
+libpcre.so.3
+
+Required Functions:
+libdl.so.2                    4 out of 27
+librt.so.1                    1 out of 72
+libpthread.so.0               49 out of 383
+ld-linux-x86-64.so.2          13 out of 197
+libc.so.6                     563 out of 3292
+Total Ratio --> 630 out of 3971
+
+/bin/dbus-uuidgen
+Untraced Libraries:
+libdbus-1.so.3
+
+Required Functions:
+ld-linux-x86-64.so.2          10 out of 197
+librt.so.1                    1 out of 72
+libpthread.so.0               40 out of 383
+libc.so.6                     447 out of 3292
+Total Ratio --> 498 out of 3944
+
+/bin/dd
+Untraced Libraries:
+
+Required Functions:
+ld-linux-x86-64.so.2          10 out of 197
+libc.so.6                     433 out of 3292
+Total Ratio --> 443 out of 3489
+
+/bin/df
+Untraced Libraries:
+
+Required Functions:
+ld-linux-x86-64.so.2          10 out of 197
+libc.so.6                     434 out of 3292
+Total Ratio --> 444 out of 3489
+
+/bin/dir
+Untraced Libraries:
+libattr.so.1
+libpcre.so.3
+libacl.so.1
+libselinux.so.1
+
+Required Functions:
+libdl.so.2                    4 out of 27
+ld-linux-x86-64.so.2          10 out of 197
+libc.so.6                     521 out of 3292
+Total Ratio --> 535 out of 3516
+
+/bin/dmesg
+Untraced Libraries:
+
+Required Functions:
+ld-linux-x86-64.so.2          10 out of 197
+libc.so.6                     411 out of 3292
+Total Ratio --> 421 out of 3489
+
+/bin/dnsdomainname
+Untraced Libraries:
+
+Required Functions:
+libnsl.so.1                   1 out of 175
+ld-linux-x86-64.so.2          10 out of 197
+libc.so.6                     415 out of 3292
+Total Ratio --> 426 out of 3664
+
+/bin/domainname
+Untraced Libraries:
+
+Required Functions:
+libnsl.so.1                   1 out of 175
+ld-linux-x86-64.so.2          10 out of 197
+libc.so.6                     415 out of 3292
+Total Ratio --> 426 out of 3664
+
+/bin/dumpkeys
+Untraced Libraries:
+
+Required Functions:
+ld-linux-x86-64.so.2          10 out of 197
+libc.so.6                     394 out of 3292
+Total Ratio --> 404 out of 3489
+
+/bin/echo
+Untraced Libraries:
+
+Required Functions:
+ld-linux-x86-64.so.2          10 out of 197
+libc.so.6                     404 out of 3292
+Total Ratio --> 414 out of 3489
+
+/bin/ed
+Untraced Libraries:
+
+Required Functions:
+ld-linux-x86-64.so.2          10 out of 197
+libc.so.6                     420 out of 3292
+Total Ratio --> 430 out of 3489
+
+/bin/efibootmgr
+Untraced Libraries:
+libz.so.1
+libpci.so.3
+
+Required Functions:
+libresolv.so.2                0 out of 119
+ld-linux-x86-64.so.2          10 out of 197
+libc.so.6                     416 out of 3292
+Total Ratio --> 426 out of 3608
+
+/bin/egrep
+Untraced Libraries:
+
+Required Functions:
+ld-linux-x86-64.so.2          10 out of 197
+libc.so.6                     460 out of 3292
+Total Ratio --> 470 out of 3489
+
+/bin/false
+Untraced Libraries:
+
+Required Functions:
+ld-linux-x86-64.so.2          10 out of 197
+libc.so.6                     404 out of 3292
+Total Ratio --> 414 out of 3489
+
 /bin/fgconsole
 Untraced Libraries:
 
@@ -15,6 +302,344 @@ Required Functions:
 ld-linux-x86-64.so.2          10 out of 197
 libc.so.6                     382 out of 3292
 Total Ratio --> 392 out of 3489
+
+/bin/fgrep
+Untraced Libraries:
+
+Required Functions:
+ld-linux-x86-64.so.2          10 out of 197
+libc.so.6                     428 out of 3292
+Total Ratio --> 438 out of 3489
+
+/bin/findmnt
+Untraced Libraries:
+libuuid.so.1
+libpcre.so.3
+libblkid.so.1
+libselinux.so.1
+libmount.so.1
+
+Required Functions:
+libdl.so.2                    4 out of 27
+ld-linux-x86-64.so.2          10 out of 197
+libc.so.6                     539 out of 3292
+Total Ratio --> 553 out of 3516
+
+/bin/fuser
+Untraced Libraries:
+
+Required Functions:
+ld-linux-x86-64.so.2          10 out of 197
+libc.so.6                     427 out of 3292
+Total Ratio --> 437 out of 3489
+
+/bin/fusermount
+Untraced Libraries:
+
+Required Functions:
+ld-linux-x86-64.so.2          10 out of 197
+libc.so.6                     409 out of 3292
+Total Ratio --> 419 out of 3489
+
+/bin/getfacl
+Untraced Libraries:
+libattr.so.1
+libacl.so.1
+
+Required Functions:
+ld-linux-x86-64.so.2          10 out of 197
+libc.so.6                     415 out of 3292
+Total Ratio --> 425 out of 3489
+
+/bin/grep
+Untraced Libraries:
+libpcre.so.3
+
+Required Functions:
+ld-linux-x86-64.so.2          10 out of 197
+libc.so.6                     461 out of 3292
+Total Ratio --> 471 out of 3489
+
+/bin/gunzip contains no dynamic symbol table
+
+/bin/gzexe contains no dynamic symbol table
+
+/bin/gzip
+Untraced Libraries:
+
+Required Functions:
+ld-linux-x86-64.so.2          10 out of 197
+libc.so.6                     427 out of 3292
+Total Ratio --> 437 out of 3489
+
+/bin/hostname
+Untraced Libraries:
+
+Required Functions:
+libnsl.so.1                   1 out of 175
+ld-linux-x86-64.so.2          10 out of 197
+libc.so.6                     415 out of 3292
+Total Ratio --> 426 out of 3664
+
+/bin/ip
+Untraced Libraries:
+
+Required Functions:
+libdl.so.2                    3 out of 27
+ld-linux-x86-64.so.2          10 out of 197
+libc.so.6                     450 out of 3292
+Total Ratio --> 463 out of 3516
+
+/bin/kbd_mode
+Untraced Libraries:
+
+Required Functions:
+ld-linux-x86-64.so.2          10 out of 197
+libc.so.6                     381 out of 3292
+Total Ratio --> 391 out of 3489
+
+/bin/kill
+Untraced Libraries:
+libprocps.so.3
+
+Required Functions:
+ld-linux-x86-64.so.2          10 out of 197
+libc.so.6                     454 out of 3292
+Total Ratio --> 464 out of 3489
+
+/bin/kmod
+Untraced Libraries:
+
+Required Functions:
+ld-linux-x86-64.so.2          10 out of 197
+libc.so.6                     452 out of 3292
+Total Ratio --> 462 out of 3489
+
+/bin/less
+Untraced Libraries:
+libtinfo.so.5
+
+Required Functions:
+ld-linux-x86-64.so.2          10 out of 197
+libc.so.6                     442 out of 3292
+Total Ratio --> 452 out of 3489
+
+/bin/lessecho
+Untraced Libraries:
+
+Required Functions:
+ld-linux-x86-64.so.2          10 out of 197
+libc.so.6                     366 out of 3292
+Total Ratio --> 376 out of 3489
+
+/bin/lessfile contains no dynamic symbol table
+
+/bin/lesskey
+Untraced Libraries:
+
+Required Functions:
+ld-linux-x86-64.so.2          10 out of 197
+libc.so.6                     368 out of 3292
+Total Ratio --> 378 out of 3489
+
+/bin/lesspipe contains no dynamic symbol table
+
+/bin/ln
+Untraced Libraries:
+
+Required Functions:
+ld-linux-x86-64.so.2          10 out of 197
+libc.so.6                     426 out of 3292
+Total Ratio --> 436 out of 3489
+
+/bin/loadkeys
+Untraced Libraries:
+
+Required Functions:
+ld-linux-x86-64.so.2          10 out of 197
+libc.so.6                     413 out of 3292
+Total Ratio --> 423 out of 3489
+
+/bin/login
+Untraced Libraries:
+libaudit.so.1
+libpam.so.0
+libpam_misc.so.0
+
+Required Functions:
+libdl.so.2                    4 out of 27
+ld-linux-x86-64.so.2          10 out of 197
+libc.so.6                     534 out of 3292
+Total Ratio --> 548 out of 3516
+
+/bin/loginctl
+Untraced Libraries:
+libnih.so.1
+libdbus-1.so.3
+libcgmanager.so.0
+libudev.so.1
+libnih-dbus.so.1
+
+Required Functions:
+ld-linux-x86-64.so.2          10 out of 197
+librt.so.1                    1 out of 72
+libpthread.so.0               40 out of 383
+libc.so.6                     532 out of 3292
+Total Ratio --> 583 out of 3944
+
+/bin/lowntfs-3g
+Untraced Libraries:
+libfuse.so.2
+libntfs-3g.so.841
+
+Required Functions:
+libdl.so.2                    3 out of 27
+ld-linux-x86-64.so.2          13 out of 197
+libpthread.so.0               59 out of 383
+libc.so.6                     499 out of 3292
+Total Ratio --> 574 out of 3899
+
+/bin/ls
+Untraced Libraries:
+libattr.so.1
+libpcre.so.3
+libacl.so.1
+libselinux.so.1
+
+Required Functions:
+libdl.so.2                    4 out of 27
+ld-linux-x86-64.so.2          10 out of 197
+libc.so.6                     521 out of 3292
+Total Ratio --> 535 out of 3516
+
+/bin/lsblk
+Untraced Libraries:
+libuuid.so.1
+libblkid.so.1
+
+Required Functions:
+ld-linux-x86-64.so.2          10 out of 197
+libc.so.6                     488 out of 3292
+Total Ratio --> 498 out of 3489
+
+/bin/lsmod
+Untraced Libraries:
+
+Required Functions:
+ld-linux-x86-64.so.2          10 out of 197
+libc.so.6                     452 out of 3292
+Total Ratio --> 462 out of 3489
+
+/bin/mkdir
+Untraced Libraries:
+libpcre.so.3
+libselinux.so.1
+
+Required Functions:
+ld-linux-x86-64.so.2          10 out of 197
+libdl.so.2                    4 out of 27
+libc.so.6                     489 out of 3292
+Total Ratio --> 503 out of 3516
+
+/bin/mknod
+Untraced Libraries:
+libpcre.so.3
+libselinux.so.1
+
+Required Functions:
+ld-linux-x86-64.so.2          10 out of 197
+libdl.so.2                    4 out of 27
+libc.so.6                     481 out of 3292
+Total Ratio --> 495 out of 3516
+
+/bin/mktemp
+Untraced Libraries:
+
+Required Functions:
+ld-linux-x86-64.so.2          10 out of 197
+libc.so.6                     428 out of 3292
+Total Ratio --> 438 out of 3489
+
+/bin/more
+Untraced Libraries:
+libtinfo.so.5
+
+Required Functions:
+ld-linux-x86-64.so.2          10 out of 197
+libc.so.6                     447 out of 3292
+Total Ratio --> 457 out of 3489
+
+/bin/mount
+Untraced Libraries:
+libuuid.so.1
+libpcre.so.3
+libblkid.so.1
+libselinux.so.1
+libmount.so.1
+
+Required Functions:
+libdl.so.2                    4 out of 27
+ld-linux-x86-64.so.2          10 out of 197
+libc.so.6                     546 out of 3292
+Total Ratio --> 560 out of 3516
+
+/bin/mountpoint
+Untraced Libraries:
+
+Required Functions:
+ld-linux-x86-64.so.2          10 out of 197
+libc.so.6                     372 out of 3292
+Total Ratio --> 382 out of 3489
+
+/bin/mt
+Untraced Libraries:
+
+Required Functions:
+ld-linux-x86-64.so.2          10 out of 197
+libc.so.6                     420 out of 3292
+Total Ratio --> 430 out of 3489
+
+/bin/mt-gnu
+Untraced Libraries:
+
+Required Functions:
+ld-linux-x86-64.so.2          10 out of 197
+libc.so.6                     420 out of 3292
+Total Ratio --> 430 out of 3489
+
+/bin/mv
+Untraced Libraries:
+libpcre.so.3
+libattr.so.1
+libselinux.so.1
+libacl.so.1
+
+Required Functions:
+libdl.so.2                    4 out of 27
+ld-linux-x86-64.so.2          10 out of 197
+libc.so.6                     534 out of 3292
+Total Ratio --> 548 out of 3516
+
+/bin/nano
+Untraced Libraries:
+libtinfo.so.5
+libncursesw.so.5
+
+Required Functions:
+ld-linux-x86-64.so.2          10 out of 197
+libdl.so.2                    4 out of 27
+libc.so.6                     493 out of 3292
+Total Ratio --> 507 out of 3516
+
+/bin/nc
+Untraced Libraries:
+libbsd.so.0
+
+Required Functions:
+libresolv.so.2                0 out of 119
+ld-linux-x86-64.so.2          10 out of 197
+libc.so.6                     459 out of 3292
+Total Ratio --> 469 out of 3608
 
 /bin/nc.openbsd
 Untraced Libraries:
@@ -26,31 +651,6 @@ ld-linux-x86-64.so.2          10 out of 197
 libc.so.6                     459 out of 3292
 Total Ratio --> 469 out of 3608
 
-/bin/setfont
-Untraced Libraries:
-
-Required Functions:
-ld-linux-x86-64.so.2          10 out of 197
-libc.so.6                     410 out of 3292
-Total Ratio --> 420 out of 3489
-
-/bin/bunzip2
-Untraced Libraries:
-libbz2.so.1.0
-
-Required Functions:
-ld-linux-x86-64.so.2          10 out of 197
-libc.so.6                     389 out of 3292
-Total Ratio --> 399 out of 3489
-
-/bin/fgrep
-Untraced Libraries:
-
-Required Functions:
-ld-linux-x86-64.so.2          10 out of 197
-libc.so.6                     428 out of 3292
-Total Ratio --> 438 out of 3489
-
 /bin/netcat
 Untraced Libraries:
 libbsd.so.0
@@ -61,46 +661,22 @@ ld-linux-x86-64.so.2          10 out of 197
 libc.so.6                     459 out of 3292
 Total Ratio --> 469 out of 3608
 
-/bin/sh
+/bin/netstat
 Untraced Libraries:
 
 Required Functions:
 ld-linux-x86-64.so.2          10 out of 197
-libc.so.6                     434 out of 3292
-Total Ratio --> 444 out of 3489
+libc.so.6                     452 out of 3292
+Total Ratio --> 462 out of 3489
 
-/bin/bzcat
-Untraced Libraries:
-libbz2.so.1.0
-
-Required Functions:
-ld-linux-x86-64.so.2          10 out of 197
-libc.so.6                     389 out of 3292
-Total Ratio --> 399 out of 3489
-
-/bin/fuser
+/bin/nisdomainname
 Untraced Libraries:
 
 Required Functions:
+libnsl.so.1                   1 out of 175
 ld-linux-x86-64.so.2          10 out of 197
-libc.so.6                     427 out of 3292
-Total Ratio --> 437 out of 3489
-
-/bin/sh.distrib
-Untraced Libraries:
-
-Required Functions:
-ld-linux-x86-64.so.2          10 out of 197
-libc.so.6                     434 out of 3292
-Total Ratio --> 444 out of 3489
-
-/bin/fusermount
-Untraced Libraries:
-
-Required Functions:
-ld-linux-x86-64.so.2          10 out of 197
-libc.so.6                     409 out of 3292
-Total Ratio --> 419 out of 3489
+libc.so.6                     415 out of 3292
+Total Ratio --> 426 out of 3664
 
 /bin/ntfs-3g
 Untraced Libraries:
@@ -114,50 +690,32 @@ libpthread.so.0               59 out of 383
 libc.so.6                     499 out of 3292
 Total Ratio --> 574 out of 3899
 
-/bin/sleep
+/bin/ntfs-3g.probe
 Untraced Libraries:
+libntfs-3g.so.841
 
 Required Functions:
 ld-linux-x86-64.so.2          10 out of 197
-libc.so.6                     410 out of 3292
-Total Ratio --> 420 out of 3489
+libc.so.6                     454 out of 3292
+Total Ratio --> 464 out of 3489
 
-/bin/getfacl
+/bin/ntfs-3g.secaudit
 Untraced Libraries:
-libattr.so.1
-libacl.so.1
+libntfs-3g.so.841
 
 Required Functions:
 ld-linux-x86-64.so.2          10 out of 197
-libc.so.6                     415 out of 3292
-Total Ratio --> 425 out of 3489
+libc.so.6                     462 out of 3292
+Total Ratio --> 472 out of 3489
 
-/bin/ss
+/bin/ntfs-3g.usermap
 Untraced Libraries:
+libntfs-3g.so.841
 
 Required Functions:
 ld-linux-x86-64.so.2          10 out of 197
-libc.so.6                     433 out of 3292
-Total Ratio --> 443 out of 3489
-
-/bin/grep
-Untraced Libraries:
-libpcre.so.3
-
-Required Functions:
-ld-linux-x86-64.so.2          10 out of 197
-libc.so.6                     461 out of 3292
-Total Ratio --> 471 out of 3489
-
-No dynamic section
-No traced Perform
-/bin/stty
-Untraced Libraries:
-
-Required Functions:
-ld-linux-x86-64.so.2          10 out of 197
-libc.so.6                     416 out of 3292
-Total Ratio --> 426 out of 3489
+libc.so.6                     456 out of 3292
+Total Ratio --> 466 out of 3489
 
 /bin/ntfscat
 Untraced Libraries:
@@ -168,14 +726,6 @@ ld-linux-x86-64.so.2          10 out of 197
 libc.so.6                     455 out of 3292
 Total Ratio --> 465 out of 3489
 
-/bin/gzip
-Untraced Libraries:
-
-Required Functions:
-ld-linux-x86-64.so.2          10 out of 197
-libc.so.6                     427 out of 3292
-Total Ratio --> 437 out of 3489
-
 /bin/ntfsck
 Untraced Libraries:
 libntfs-3g.so.841
@@ -185,48 +735,14 @@ ld-linux-x86-64.so.2          10 out of 197
 libc.so.6                     452 out of 3292
 Total Ratio --> 462 out of 3489
 
-/bin/sync
+/bin/ntfscluster
 Untraced Libraries:
+libntfs-3g.so.841
 
 Required Functions:
 ld-linux-x86-64.so.2          10 out of 197
-libc.so.6                     408 out of 3292
-Total Ratio --> 418 out of 3489
-
-/bin/bzip2
-Untraced Libraries:
-libbz2.so.1.0
-
-Required Functions:
-ld-linux-x86-64.so.2          10 out of 197
-libc.so.6                     389 out of 3292
-Total Ratio --> 399 out of 3489
-
-/bin/hostname
-Untraced Libraries:
-
-Required Functions:
-libnsl.so.1                   1 out of 175
-ld-linux-x86-64.so.2          10 out of 197
-libc.so.6                     415 out of 3292
-Total Ratio --> 426 out of 3664
-
-/bin/tailf
-Untraced Libraries:
-
-Required Functions:
-ld-linux-x86-64.so.2          10 out of 197
-libc.so.6                     410 out of 3292
-Total Ratio --> 420 out of 3489
-
-/bin/ip
-Untraced Libraries:
-
-Required Functions:
-libdl.so.2                    3 out of 27
-ld-linux-x86-64.so.2          10 out of 197
-libc.so.6                     450 out of 3292
-Total Ratio --> 463 out of 3516
+libc.so.6                     454 out of 3292
+Total Ratio --> 464 out of 3489
 
 /bin/ntfscmp
 Untraced Libraries:
@@ -236,6 +752,332 @@ Required Functions:
 ld-linux-x86-64.so.2          10 out of 197
 libc.so.6                     461 out of 3292
 Total Ratio --> 471 out of 3489
+
+/bin/ntfsdump_logfile
+Untraced Libraries:
+libntfs-3g.so.841
+
+Required Functions:
+ld-linux-x86-64.so.2          10 out of 197
+libc.so.6                     454 out of 3292
+Total Ratio --> 464 out of 3489
+
+/bin/ntfsfix
+Untraced Libraries:
+libntfs-3g.so.841
+
+Required Functions:
+ld-linux-x86-64.so.2          10 out of 197
+libc.so.6                     454 out of 3292
+Total Ratio --> 464 out of 3489
+
+/bin/ntfsinfo
+Untraced Libraries:
+libntfs-3g.so.841
+
+Required Functions:
+ld-linux-x86-64.so.2          10 out of 197
+libc.so.6                     458 out of 3292
+Total Ratio --> 468 out of 3489
+
+/bin/ntfsls
+Untraced Libraries:
+libntfs-3g.so.841
+
+Required Functions:
+ld-linux-x86-64.so.2          10 out of 197
+libc.so.6                     460 out of 3292
+Total Ratio --> 470 out of 3489
+
+/bin/ntfsmftalloc
+Untraced Libraries:
+libntfs-3g.so.841
+
+Required Functions:
+ld-linux-x86-64.so.2          10 out of 197
+libc.so.6                     455 out of 3292
+Total Ratio --> 465 out of 3489
+
+/bin/ntfsmove
+Untraced Libraries:
+libntfs-3g.so.841
+
+Required Functions:
+ld-linux-x86-64.so.2          10 out of 197
+libc.so.6                     454 out of 3292
+Total Ratio --> 464 out of 3489
+
+/bin/ntfstruncate
+Untraced Libraries:
+libntfs-3g.so.841
+
+Required Functions:
+ld-linux-x86-64.so.2          10 out of 197
+libc.so.6                     460 out of 3292
+Total Ratio --> 470 out of 3489
+
+/bin/ntfswipe
+Untraced Libraries:
+libntfs-3g.so.841
+
+Required Functions:
+ld-linux-x86-64.so.2          10 out of 197
+libc.so.6                     455 out of 3292
+Total Ratio --> 465 out of 3489
+
+/bin/open
+Untraced Libraries:
+
+Required Functions:
+ld-linux-x86-64.so.2          10 out of 197
+libc.so.6                     403 out of 3292
+Total Ratio --> 413 out of 3489
+
+/bin/openvt
+Untraced Libraries:
+
+Required Functions:
+ld-linux-x86-64.so.2          10 out of 197
+libc.so.6                     403 out of 3292
+Total Ratio --> 413 out of 3489
+
+/bin/pidof
+Untraced Libraries:
+
+Required Functions:
+ld-linux-x86-64.so.2          10 out of 197
+libc.so.6                     420 out of 3292
+Total Ratio --> 430 out of 3489
+
+/bin/ping
+Untraced Libraries:
+libcap.so.2
+
+Required Functions:
+ld-linux-x86-64.so.2          10 out of 197
+libc.so.6                     418 out of 3292
+Total Ratio --> 428 out of 3489
+
+/bin/ping6
+Untraced Libraries:
+libffi.so.6
+libgpg-error.so.0
+libz.so.1
+libcap.so.2
+libgnutls-openssl.so.27
+libgnutls.so.26
+libp11-kit.so.0
+libgcrypt.so.11
+libtasn1.so.6
+
+Required Functions:
+libresolv.so.2                3 out of 119
+libpthread.so.0               23 out of 383
+ld-linux-x86-64.so.2          10 out of 197
+libdl.so.2                    4 out of 27
+libc.so.6                     523 out of 3292
+Total Ratio --> 563 out of 4018
+
+/bin/plymouth
+Untraced Libraries:
+libply.so.2
+
+Required Functions:
+librt.so.1                    0 out of 72
+libdl.so.2                    4 out of 27
+ld-linux-x86-64.so.2          10 out of 197
+libc.so.6                     440 out of 3292
+Total Ratio --> 454 out of 3588
+
+/bin/plymouth-upstart-bridge
+Untraced Libraries:
+libply-boot-client.so.2
+libtinfo.so.5
+libdbus-1.so.3
+libply.so.2
+
+Required Functions:
+libdl.so.2                    4 out of 27
+ld-linux-x86-64.so.2          10 out of 197
+librt.so.1                    1 out of 72
+libpthread.so.0               40 out of 383
+libc.so.6                     517 out of 3292
+Total Ratio --> 572 out of 3971
+
+/bin/ps
+Untraced Libraries:
+libprocps.so.3
+
+Required Functions:
+ld-linux-x86-64.so.2          10 out of 197
+libc.so.6                     458 out of 3292
+Total Ratio --> 468 out of 3489
+
+/bin/pwd
+Untraced Libraries:
+
+Required Functions:
+ld-linux-x86-64.so.2          10 out of 197
+libc.so.6                     411 out of 3292
+Total Ratio --> 421 out of 3489
+
+/bin/rbash
+Untraced Libraries:
+libtinfo.so.5
+
+Required Functions:
+libdl.so.2                    4 out of 27
+ld-linux-x86-64.so.2          10 out of 197
+libc.so.6                     549 out of 3292
+Total Ratio --> 563 out of 3516
+
+/bin/readlink
+Untraced Libraries:
+
+Required Functions:
+ld-linux-x86-64.so.2          10 out of 197
+libc.so.6                     408 out of 3292
+Total Ratio --> 418 out of 3489
+
+/bin/red contains no dynamic symbol table
+
+/bin/rm
+Untraced Libraries:
+
+Required Functions:
+ld-linux-x86-64.so.2          10 out of 197
+libc.so.6                     426 out of 3292
+Total Ratio --> 436 out of 3489
+
+/bin/rmdir
+Untraced Libraries:
+
+Required Functions:
+ld-linux-x86-64.so.2          10 out of 197
+libc.so.6                     412 out of 3292
+Total Ratio --> 422 out of 3489
+
+/bin/rnano
+Untraced Libraries:
+libtinfo.so.5
+libncursesw.so.5
+
+Required Functions:
+ld-linux-x86-64.so.2          10 out of 197
+libdl.so.2                    4 out of 27
+libc.so.6                     493 out of 3292
+Total Ratio --> 507 out of 3516
+
+/bin/running-in-container contains no dynamic symbol table
+
+/bin/run-parts
+Untraced Libraries:
+
+Required Functions:
+ld-linux-x86-64.so.2          10 out of 197
+libc.so.6                     407 out of 3292
+Total Ratio --> 417 out of 3489
+
+/bin/sed
+Untraced Libraries:
+libpcre.so.3
+libselinux.so.1
+
+Required Functions:
+libdl.so.2                    4 out of 27
+ld-linux-x86-64.so.2          10 out of 197
+libc.so.6                     506 out of 3292
+Total Ratio --> 520 out of 3516
+
+/bin/setfacl
+Untraced Libraries:
+libattr.so.1
+libacl.so.1
+
+Required Functions:
+ld-linux-x86-64.so.2          10 out of 197
+libc.so.6                     414 out of 3292
+Total Ratio --> 424 out of 3489
+
+/bin/setfont
+Untraced Libraries:
+
+Required Functions:
+ld-linux-x86-64.so.2          10 out of 197
+libc.so.6                     410 out of 3292
+Total Ratio --> 420 out of 3489
+
+/bin/setupcon contains no dynamic symbol table
+
+/bin/sh
+Untraced Libraries:
+
+Required Functions:
+ld-linux-x86-64.so.2          10 out of 197
+libc.so.6                     434 out of 3292
+Total Ratio --> 444 out of 3489
+
+/bin/sh.distrib
+Untraced Libraries:
+
+Required Functions:
+ld-linux-x86-64.so.2          10 out of 197
+libc.so.6                     434 out of 3292
+Total Ratio --> 444 out of 3489
+
+/bin/sleep
+Untraced Libraries:
+
+Required Functions:
+ld-linux-x86-64.so.2          10 out of 197
+libc.so.6                     410 out of 3292
+Total Ratio --> 420 out of 3489
+
+/bin/ss
+Untraced Libraries:
+
+Required Functions:
+ld-linux-x86-64.so.2          10 out of 197
+libc.so.6                     433 out of 3292
+Total Ratio --> 443 out of 3489
+
+/bin/static-sh contains no dynamic symbol table
+
+/bin/stty
+Untraced Libraries:
+
+Required Functions:
+ld-linux-x86-64.so.2          10 out of 197
+libc.so.6                     416 out of 3292
+Total Ratio --> 426 out of 3489
+
+/bin/su
+Untraced Libraries:
+libaudit.so.1
+libpam.so.0
+libpam_misc.so.0
+
+Required Functions:
+libdl.so.2                    4 out of 27
+ld-linux-x86-64.so.2          10 out of 197
+libc.so.6                     518 out of 3292
+Total Ratio --> 532 out of 3516
+
+/bin/sync
+Untraced Libraries:
+
+Required Functions:
+ld-linux-x86-64.so.2          10 out of 197
+libc.so.6                     408 out of 3292
+Total Ratio --> 418 out of 3489
+
+/bin/tailf
+Untraced Libraries:
+
+Required Functions:
+ld-linux-x86-64.so.2          10 out of 197
+libc.so.6                     410 out of 3292
+Total Ratio --> 420 out of 3489
 
 /bin/tar
 Untraced Libraries:
@@ -258,24 +1100,6 @@ ld-linux-x86-64.so.2          10 out of 197
 libc.so.6                     373 out of 3292
 Total Ratio --> 383 out of 3489
 
-/bin/kill
-Untraced Libraries:
-libprocps.so.3
-
-Required Functions:
-ld-linux-x86-64.so.2          10 out of 197
-libc.so.6                     454 out of 3292
-Total Ratio --> 464 out of 3489
-
-/bin/ntfsfix
-Untraced Libraries:
-libntfs-3g.so.841
-
-Required Functions:
-ld-linux-x86-64.so.2          10 out of 197
-libc.so.6                     454 out of 3292
-Total Ratio --> 464 out of 3489
-
 /bin/touch
 Untraced Libraries:
 
@@ -284,19 +1108,128 @@ ld-linux-x86-64.so.2          10 out of 197
 libc.so.6                     425 out of 3292
 Total Ratio --> 435 out of 3489
 
-/bin/cat
+/bin/true
 Untraced Libraries:
 
 Required Functions:
 ld-linux-x86-64.so.2          10 out of 197
-libc.so.6                     423 out of 3292
-Total Ratio --> 433 out of 3489
+libc.so.6                     404 out of 3292
+Total Ratio --> 414 out of 3489
 
-/bin/kmod
+/bin/udevadm
+Untraced Libraries:
+libkmod.so.2
+libattr.so.1
+libuuid.so.1
+libselinux.so.1
+libacl.so.1
+libblkid.so.1
+libpcre.so.3
+
+Required Functions:
+librt.so.1                    0 out of 72
+libdl.so.2                    4 out of 27
+ld-linux-x86-64.so.2          10 out of 197
+libc.so.6                     571 out of 3292
+Total Ratio --> 585 out of 3588
+
+/bin/ulockmgr_server
+Untraced Libraries:
+
+Required Functions:
+ld-linux-x86-64.so.2          13 out of 197
+libpthread.so.0               26 out of 383
+libc.so.6                     372 out of 3292
+Total Ratio --> 411 out of 3872
+
+/bin/umount
+Untraced Libraries:
+libpcre.so.3
+libuuid.so.1
+libselinux.so.1
+libblkid.so.1
+libmount.so.1
+
+Required Functions:
+libdl.so.2                    4 out of 27
+ld-linux-x86-64.so.2          10 out of 197
+libc.so.6                     543 out of 3292
+Total Ratio --> 557 out of 3516
+
+/bin/uname
 Untraced Libraries:
 
 Required Functions:
 ld-linux-x86-64.so.2          10 out of 197
-libc.so.6                     452 out of 3292
-Total Ratio --> 462 out of 3489
+libc.so.6                     409 out of 3292
+Total Ratio --> 419 out of 3489
+
+/bin/uncompress contains no dynamic symbol table
+
+/bin/unicode_start contains no dynamic symbol table
+
+/bin/vdir
+Untraced Libraries:
+libattr.so.1
+libpcre.so.3
+libacl.so.1
+libselinux.so.1
+
+Required Functions:
+libdl.so.2                    4 out of 27
+ld-linux-x86-64.so.2          10 out of 197
+libc.so.6                     521 out of 3292
+Total Ratio --> 535 out of 3516
+
+/bin/vmmouse_detect
+Untraced Libraries:
+
+Required Functions:
+ld-linux-x86-64.so.2          10 out of 197
+libc.so.6                     362 out of 3292
+Total Ratio --> 372 out of 3489
+
+/bin/which contains no dynamic symbol table
+
+/bin/whiptail
+Untraced Libraries:
+libslang.so.2
+libpopt.so.0
+libnewt.so.0.52
+
+Required Functions:
+libdl.so.2                    4 out of 27
+ld-linux-x86-64.so.2          10 out of 197
+libm.so.6                     71 out of 573
+libc.so.6                     517 out of 3292
+Total Ratio --> 602 out of 4089
+
+/bin/ypdomainname
+Untraced Libraries:
+
+Required Functions:
+libnsl.so.1                   1 out of 175
+ld-linux-x86-64.so.2          10 out of 197
+libc.so.6                     415 out of 3292
+Total Ratio --> 426 out of 3664
+
+/bin/zcat contains no dynamic symbol table
+
+/bin/zcmp contains no dynamic symbol table
+
+/bin/zdiff contains no dynamic symbol table
+
+/bin/zegrep contains no dynamic symbol table
+
+/bin/zfgrep contains no dynamic symbol table
+
+/bin/zforce contains no dynamic symbol table
+
+/bin/zgrep contains no dynamic symbol table
+
+/bin/zless contains no dynamic symbol table
+
+/bin/zmore contains no dynamic symbol table
+
+/bin/znew contains no dynamic symbol table
 

@@ -1,0 +1,2 @@
+/bin/uncompress contains no dynamic symbol table
+

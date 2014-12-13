@@ -1,0 +1,2 @@
+/bin/bzmore contains no dynamic symbol table
+

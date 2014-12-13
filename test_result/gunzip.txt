@@ -1,0 +1,2 @@
+/bin/gunzip contains no dynamic symbol table
+

@@ -1,0 +1,2 @@
+/bin/zmore contains no dynamic symbol table
+

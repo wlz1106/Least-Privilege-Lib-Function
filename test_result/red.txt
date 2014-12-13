@@ -1,0 +1,2 @@
+/bin/red contains no dynamic symbol table
+

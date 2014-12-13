@@ -1,0 +1,2 @@
+/bin/zcat contains no dynamic symbol table
+

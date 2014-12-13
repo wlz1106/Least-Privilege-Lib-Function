@@ -1,0 +1,2 @@
+/bin/running-in-container contains no dynamic symbol table
+

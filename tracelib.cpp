@@ -68,9 +68,9 @@ int main(int argc,char *argv[]){
 
 	int result = getdynsym(filename,dynsym,dynsymsize);
 	if( result == GETDYNSYM_NODYNSYM ){
-		cout << "No dynamic section" << endl;
-		cout << "No traced Perform" << endl;
-		return 0;
+		cout << filename + " contains no dynamic symbol table" << endl;
+		cout << endl;
+		return -1;
 	}
 		
 	for( int i = 0 ; i < dynsymsize ; i++ ){

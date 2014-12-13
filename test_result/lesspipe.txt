@@ -1,0 +1,2 @@
+/bin/lesspipe contains no dynamic symbol table
+
