@@ -6,8 +6,14 @@ echo >> $ratio_result
 for binfile in /bin/*; do
 	filename=$(basename $binfile)
 	result=test_result/$filename".txt"
-	./tracelib $binfile -c >> $ratio_result
-	./tracelib $binfile -f > $result
+	if [ "$1" = "-r" ]; then
+		./tracelib $binfile -c >> $ratio_result
+	elif [ "$1" = "-f" ]; then
+		./tracelib $binfile -f > $result
+	else
+		./tracelib $binfile -c >> $ratio_result
+		./tracelib $binfile -f > $result
+	fi
 	if [ $? -eq 0 ]; then
 		echo "success:$binfile"
 		continue

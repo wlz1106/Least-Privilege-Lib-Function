@@ -143,20 +143,27 @@ int main(int argc,char *argv[]){
 		}
 	}
 
-	cout << filename << endl;
-	cout << "Untraced Libraries:" << endl;
-	for( auto it = graph.libs.begin() ; it != graph.libs.end() ; it++ ){
-		if( it->second == DYNAMIC_SYM )
-			cout << it->first << endl;
-	}
-	cout << endl;
-
-	cout << "Required Functions:" << endl;
 	if( flag == 'f' ){
+		cout << filename << endl;
+		cout << "Untraced Libraries:" << endl;
+		for( auto it = graph.libs.begin() ; it != graph.libs.end() ; it++ ){
+			if( it->second == DYNAMIC_SYM )
+				cout << it->first << endl;
+		}
+		cout << endl;
+		cout << "Required Functions:" << endl;
 		for( auto it = graph.table.begin() ; it != graph.table.end() ; it++ ){
 			cout << it->second->func << "@" << it->second->lib << endl;
 		}
 	}else if( flag == 't' ){
+		cout << filename << endl;
+		cout << "Untraced Libraries:" << endl;
+		for( auto it = graph.libs.begin() ; it != graph.libs.end() ; it++ ){
+			if( it->second == DYNAMIC_SYM )
+				cout << it->first << endl;
+		}
+		cout << endl;
+		cout << "Required Functions:" << endl;
 		for( auto it = graph.table.begin() ; it != graph.table.end() ; it++ ){
 			cout << it->second->func << "@" << it->second->lib << endl;
 			for( auto j = it->second->descendance.begin() ; j != it->second->descendance.end() ; j++ ){
@@ -164,14 +171,24 @@ int main(int argc,char *argv[]){
 			} 
 		}
 	}else if( flag == 'a' ){
+		cout << filename << endl;
+		cout << "Untraced Libraries:" << endl;
+		for( auto it = graph.libs.begin() ; it != graph.libs.end() ; it++ ){
+			if( it->second == DYNAMIC_SYM )
+				cout << it->first << endl;
+		}
+		cout << endl;
+		cout << "Required Functions:" << endl;
 		for( auto it = graph.table.begin() ; it != graph.table.end() ; it++ ){
 			cout << it->second->func << "@" << it->second->lib << endl;
 			cout << it->second->func_asm << endl;
 		}
 	}else if( flag == 'c' ){
-		unordered_map<string,int> lib_count;
+		cout << filename << endl;
+		cout << "Untraced Libraries:" << endl;
 		int used_total = 0;
 		int total = 0;
+		unordered_map<string,int> lib_count;
 		for( auto it = graph.table.begin() ; it != graph.table.end() ; it++ ){
 			if( lib_count.find(it->second->lib)== lib_count.end() ){
 				lib_count[it->second->lib] = 0;
@@ -182,6 +199,15 @@ int main(int argc,char *argv[]){
 				used_total++;
 			}
 		}
+		for( auto it = graph.libs.begin() ; it != graph.libs.end() ; it++ ){
+			if( it->second == DYNAMIC_SYM ){
+				Elf64_Xword func_count = lib_info_map[it->first].count_func();
+				total += func_count;
+				cout << setw(30) << left << it->first << func_count << " out of " << func_count << endl;
+			}
+		}
+		cout << endl;
+		cout << "Required Functions:" << endl;
 		for( auto it = lib_count.begin() ; it != lib_count.end() ; it++ ){
 			cout << setw(30) << left << it->first << it->second << " out of " << lib_info_map[it->first].func_sym_count << endl;
 		}

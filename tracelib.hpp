@@ -96,7 +96,7 @@ public:
 		this->sym_type = sym_type;
 		this->is_used = false;
 	}
-	void count_func(){
+	Elf64_Xword count_func(){
 		func_sym_count = 0;
 		unordered_set<Elf64_Addr> addr_set;
 		for( int i = 0 ; i < symtabsize ; i++ ){
@@ -105,6 +105,7 @@ public:
 				func_sym_count++;
 			}
 		}
+		return func_sym_count;
 	}
 };
 
