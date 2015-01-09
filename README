@@ -1,5 +1,2 @@
-Tracing Shared Library Function
+Tracing necessary shared library function on binary and assembly level
 
-1.*ABS* in callq is not handle
-
-2.ratio.txt in test_result folder contains ratio of attack surface for bin utilities
